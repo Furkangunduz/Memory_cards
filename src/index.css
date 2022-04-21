@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+    @apply h-full;
+}
+body {
+    @apply h-full flex justify-center items-center;
+}
+.container {
+    @apply flex
+    flex-col 
+    justify-center 
+    items-center 
+    mt-4 mb-4;
+}
+.card {
+    @apply bg-red-100 
+    justify-center
+    items-center 
+    mr-5 mb-5 
+    inline-flex
+    border-cyan-200 border-2 rounded
+    py-7 px-4
+    h-14 w-32
+    cursor-pointer;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.card.active {
+    background-color: #2980b9;
+    color: white;
+    transform: rotateY(180deg);
+}
+
+.fornt,
+.back {
+    -webkit-backface-visibility: hidden;
+}
+.front {
+}
+
+.back {
+    background-color: #2980b9;
+    color: white;
+    transform: rotateY(180deg);
+}
