@@ -1,16 +1,19 @@
 <template>
-    <div class="container">
-        <div>
+    <div>
+        <h3>Tried {{ tried }} times</h3>
+        <h4>Score : {{ score }}</h4>
+        <div class="container">
             <div v-for="(col, colindx) in Words" :key="colindx">
-                <div
+                <button
                     @click="makeActive"
+                    :disabled="isDisable"
                     v-for="(row, rowindx) in col"
                     :key="rowindx"
                     class="card"
                 >
                     <div class="front"></div>
                     <div class="back">{{ row }}</div>
-                </div>
+                </button>
             </div>
         </div>
     </div>
@@ -24,33 +27,44 @@ export default {
                 ["elma", "kaysı", "havuc", "armut"],
                 ["karpuz", "şeftali", "armut", "elma"],
                 ["domates", "karpuz", "kiraz", "şeftali"],
-                ["kaysı", "kiraz", "domates", "havuz"],
+                ["kaysı", "kiraz", "domates", "havuc"],
             ],
+            tried: 0,
+            score: 0,
             activeCount: 0,
+            isDisable: false,
         };
     },
     methods: {
         makeActive(e) {
-            e.target.classList.add("active");
-            this.activeCount++;
+            if (!this.isDisable) {
+                e.target.classList.add("active");
+                this.activeCount++;
+            }
 
-            console.log(this.activeCount);
             if (this.activeCount == 2) {
+                this.tried++;
+                this.isDisable = true;
                 var active = document.querySelectorAll(".active");
                 var firstSelectedCard =
                     active[0].querySelector(".back").innerHTML;
                 var secondSelectedCard =
                     active[1].querySelector(".back").innerHTML;
 
-                if (firstSelectedCard == secondSelectedCard) {
-                    console.log("score++");
-                }
                 setTimeout(() => {
-                    active.forEach((e) => {
-                        e.classList.remove("active");
-                    });
+                    if (firstSelectedCard == secondSelectedCard) {
+                        this.score++;
+                        active.forEach((e) => {
+                            e.style.visibility = "hidden";
+                        });
+                    } else {
+                        active.forEach((e) => {
+                            e.classList.remove("active");
+                        });
+                    }
                     this.activeCount = 0;
-                }, 500);
+                    this.isDisable = false;
+                }, 750);
             }
         },
     },
